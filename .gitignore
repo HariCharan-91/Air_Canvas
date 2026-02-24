@@ -19,7 +19,7 @@ __pycache__/
 # Ignores virtual environments
 venv/
 .venv/
-env/
+env/git status
 .env
 
 # --- IDEs and OS ---
