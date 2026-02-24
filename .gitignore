@@ -1,0 +1,31 @@
+# --- Project Specific Outputs ---
+# Ignores the folder where your Compose class saves step-by-step images
+images/
+
+# Ignores any saved videos or test media files
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.jpeg
+*.png
+
+# --- Python ---
+# Ignores compiled bytecode and cache (these regenerate automatically)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignores virtual environments
+venv/
+.venv/
+env/
+.env
+
+# --- IDEs and OS ---
+# Ignores VS Code or PyCharm settings specific to your computer
+.vscode/
+.idea/
+
+# Ignores Mac system files
+.DS_Store
