@@ -2,6 +2,8 @@
 # Ignores the folder where your Compose class saves step-by-step images
 images/
 
+echo "test.py" >> .gitignore
+
 # Ignores any saved videos or test media files
 *.mp4
 *.avi

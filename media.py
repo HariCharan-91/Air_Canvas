@@ -4,6 +4,8 @@ import sys
 import base_class as bc
 from functools import partial
 from custom import Filters as fl
+from custom import StackImages
+import numpy as np
 
 class MediaLoader:
     def __init__(self,width=640, height=480) -> None:
@@ -75,18 +77,28 @@ class MediaLoader:
             # 2. Call the pipeline directly! DO NOT loop over it.
             # This triggers Compose.__call__ and runs your save logic.
             img = pipeline(img , source_name = source_name)
-                    
-        cv.imshow("Image", img)
-        cv.waitKey(0)
-        cv.destroyAllWindows() # Clean up window after key press
+        
+        path = rf"C:\Users\lenovo\projects\cv\air_canvas\images\{source_name}"
+        grid = StackImages(path).stack()
+
+        if grid is not None and isinstance(grid, np.ndarray):
+            cv.imshow(f"Pipeline Grid", grid)
+            cv.waitKey(0)
+            cv.destroyAllWindows()
+        else:
+            print("Error: Grid generation failed.")
 
 def main() -> None:
     media_load = MediaLoader()
     pipeline = bc.Compose([
-        fl.hsv()
-    ] )
+        fl.view_copy(),
+        fl.gray(),
+        fl.blur(sigmaX=1),
+        fl.dilate(),
+        fl.edges(),
+    ] , save_output=True)
     try:
-        media_load.video_loader(choice = 0, pipeline = pipeline , flip=1)
+        media_load.image_loader(choice = "../img.png", pipeline = pipeline )
     except Exception as e:
         print(e)
 
