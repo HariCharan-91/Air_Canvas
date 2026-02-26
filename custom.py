@@ -7,6 +7,7 @@ import tkinter
 from pathlib import Path
 from functools import wraps
 
+
 class Filters:
     """Library of custom OpenCV pipeline layers."""
 
@@ -58,6 +59,18 @@ class Filters:
             kernel = np.ones((3, 3), np.uint8)
         return bc.Layer(cv.dilate, save_prefix="dilated", kernel=kernel, iterations=iterations)
     
+    @staticmethod
+    def hsv_mask(lower_list: list, upper_list: list):
+        # This inner function is what actually touches the pixels
+        def apply_logic(img):
+            img_hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+            lower = np.array(lower_list)
+            upper = np.array(upper_list)
+            mask = cv.inRange(img_hsv, lower, upper)
+            # We return the bitwise result (the actual masked image)
+            return cv.bitwise_and(img, img, mask=mask)
+        return bc.Layer(apply_logic, save_prefix="hsv_mask")
+
 def get_screen_limits(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
@@ -125,3 +138,4 @@ class StackImages:
 
         print("✅ Grid successfully generated!")
         return grid
+    
